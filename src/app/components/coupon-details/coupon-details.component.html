@@ -1,0 +1,27 @@
+<div class="container mt-5">
+    <div>
+        <label><b>Company Name: </b></label> {{coupon.companyName}}
+    </div>
+    <div>
+        <label><b>Category: </b></label> {{coupon.category}}
+    </div>
+    <div>
+        <label><b>Title: </b></label> {{coupon.title}}
+    </div>
+    <div>
+        <label><b>Description: </b></label> {{coupon.description}}
+    </div>
+    <div>
+        <label><b>Amount: </b></label> {{coupon.amount}}
+    </div>
+    <div>
+        <label><b>Price: </b></label> {{coupon.price | currency}}
+    </div>
+    <div>
+        <label><b>Start Date: </b></label> {{coupon.startDate}}
+    </div>
+    <div>
+        <label><b>End Date: </b></label> {{coupon.endDate}}
+    </div>
+    <button class="btn btn-info ml-2" (click)="goBack()">Back</button>
+</div>

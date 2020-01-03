@@ -1,0 +1,52 @@
+<div class="mt-3 container">
+    <h3>Update Coupon</h3>
+    <form>
+        <div class="form-row">
+            <div class="col form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="companyName" required [(ngModel)]="coupon.title"
+                    name="title">
+            </div>
+            <div class="col form-group">
+                <label for="category">Category</label>
+                <select id="category" class="form-control" [(ngModel)]="coupon.category" name="category">
+                    <option *ngFor="let cat of categories" [value]="cat" >
+                        {{categoryToMapping[cat]}}
+                    </option>
+                </select>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label for="desc">Description</label>
+            <textarea class="form-control text-area" id="desc" required [(ngModel)]="coupon.description" name="desc"
+                rows="1"></textarea>
+        </div>
+        <div class="form-row">
+            <div class="col form-group">
+                <label for="startDate">Start Date</label>
+                <input type="date" class="form-control" id="startDate" required [(ngModel)]="coupon.startDate"
+                    name="startDate">
+            </div>
+            <div class="col form-group">
+                <label for="endDate">End Date</label>
+                <input type="date" class="form-control" id="endDate" required [(ngModel)]="coupon.endDate"
+                    name="startDate">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col form-group">
+                <label for="amount">Amount</label>
+                <input type="number" class="form-control" id="amount" required [(ngModel)]="coupon.amount"
+                    name="amount">
+            </div>
+            <div class="col form-group">
+                <label for="price">Price, $</label>
+                <input type="number" min="0.00" step="0.01" class="form-control" id="price" required
+                    [(ngModel)]="coupon.price" name="price">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success" (click)="updateCoupon()">Update</button>
+        <button class="btn btn-info ml-2" (click)="gotoList()">Back</button>
+    </form>
+</div>

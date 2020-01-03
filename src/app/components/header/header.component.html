@@ -1,0 +1,107 @@
+<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #E0FFFF;">
+    <a class="navbar-brand  mb-0 h1" routerLink="login" routerLinkActive="active">Coupons system</a>
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+        aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse " id="collapsibleNavId">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item" *ngIf="isloginn() && (isAdmin() || isCompany() || isCustomer())">
+                <a routerLink="info" class="nav-link" routerLinkActive="active">Home</a>
+            </li>
+            <li *ngIf="isloginn() && isCompany()" class="nav-item">
+                <a class="nav-link" routerLink="company_coupons" routerLinkActive="active">My Coupons</a>
+            </li>
+            <li *ngIf="isloginn() && isCompany()" class="nav-item">
+                <a class="nav-link" routerLink="addCoupon" routerLinkActive="active">Add Coupon</a>
+            </li>
+            <li *ngIf="isloginn() && isCustomer()" class="nav-item">
+                <a class="nav-link" routerLink="buyCoupon" routerLinkActive="active">Buy Coupon</a>
+            </li>
+            <li *ngIf="isloginn() && isCustomer()" class="nav-item">
+                <a class="nav-link" routerLink="customer_coupons" routerLinkActive="active">My Coupons</a>
+            </li>
+            <li *ngIf="isloginn() && isAdmin()" class="nav-item">
+                <a class="nav-link" routerLink="companies" routerLinkActive="active">Companies</a>
+            </li>
+            <li *ngIf="isloginn() && isAdmin()" class="nav-item">
+                <a class="nav-link" routerLink="coupons" routerLinkActive="active">Coupons</a>
+            </li>
+            <li *ngIf="isloginn() && isAdmin()" class="nav-item">
+                <a class="nav-link" routerLink="customers" routerLinkActive="active">Customers</a>
+            </li>
+            <li *ngIf="isloginn() && isAdmin()" class="nav-item">
+                <a class="nav-link" routerLink="newUser" routerLinkActive="active">Add User</a>
+            </li>
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0">
+            <ul class="navbar-nav mr-4 mt-2 mt-lg-0">
+                <li class="nav-item"
+                    *ngIf="isloginn()">
+                    <a routerLink="profile" class="nav-link" routerLinkActive="active">Profile<span
+                            class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                <a routerLink="about" class="nav-link" routerLinkActive="active">About<span
+                            class="sr-only"></span></a>
+                </li>
+            </ul>
+            <button class="btn btn-info" *ngIf="isloginn()" (click)="logout()">Logout</button>
+        </form>
+    </div>
+</nav>
+
+<!-- <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #E0FFFF;">
+    <a class="navbar-brand  mb-0 h1" routerLink="login" routerLinkActive="active">Coupons system</a>
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+        aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse " id="collapsibleNavId">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item" *ngIf="currentUser.role === 'ROLE_COMPANY' || currentUser.role === 'ROLE_ADMIN' || currentUser.role === 'ROLE_CUSTOMER'">
+                <a routerLink="info" class="nav-link" routerLinkActive="active">Home</a>
+            </li>
+            <li *ngIf="currentUser.role === 'ROLE_COMPANY'" class="nav-item">
+                <a class="nav-link" href="">My Coupons</a>
+            </li>
+            <li *ngIf="currentUser.role === 'ROLE_COMPANY'" class="nav-item">
+                <a class="nav-link" href="" >Add Coupon</a>
+            </li>
+            <li *ngIf="currentUser.role === 'ROLE_CUSTOMER'" class="nav-item">
+                <a class="nav-link" href="">Buy Coupon</a>
+            </li>
+            <li *ngIf="currentUser.role === 'ROLE_CUSTOMER'" class="nav-item">
+                <a class="nav-link" href="">My Coupons</a>
+            </li>
+            <li *ngIf="currentUser.role === 'ROLE_ADMIN'" class="nav-item">
+                <a class="nav-link" routerLink="companies" routerLinkActive="active">Companies</a>
+            </li>
+            <li *ngIf="currentUser.role === 'ROLE_ADMIN'" class="nav-item">
+                <a class="nav-link" routerLink="coupons" routerLinkActive="active">Coupons</a>
+            </li>
+            <li *ngIf="currentUser.role === 'ROLE_ADMIN'" class="nav-item">
+                <a class="nav-link" routerLink="customers" routerLinkActive="active">Customers</a>
+            </li>
+            <li *ngIf="currentUser.role === 'ROLE_ADMIN'" class="nav-item">
+                <a class="nav-link" routerLink="newUser" routerLinkActive="active">Add User</a>
+            </li>
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0">
+            <ul class="navbar-nav mr-4 mt-2 mt-lg-0">
+                <li class="nav-item"
+                    *ngIf="isLoggedIn">
+                    <a routerLink="profile" class="nav-link" routerLinkActive="active">Profile<span
+                            class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                <a routerLink="about" class="nav-link" routerLinkActive="active">About<span
+                            class="sr-only"></span></a>
+                </li>
+            </ul>
+            <button class="btn btn-info" *ngIf="isloginn()" (click)="logout()">Logout</button>
+        </form>
+    </div>
+</nav> -->

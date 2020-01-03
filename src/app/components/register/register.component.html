@@ -1,0 +1,86 @@
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-0">
+                <header class="card-header">
+                    <a routerLink="/login" routerLinkActive="active"
+                        class="float-right btn btn-outline-primary mt-1">Log in</a>
+                    <h4 class="card-title mt-2">Sign up</h4>
+                </header>
+                <article class="card-body">
+                    <form [formGroup]="registerForm" (ngSubmit)="onFormSubmit(registerForm.value)">
+                        <div class="form-row">
+                            <div class="col form-group">
+                                <label>Full Name </label>
+                                <input matInput type="text" formControlName="fullName" [errorStateMatcher]="matcher"
+                                    class="form-control" placeholder="Insert Your Full Name">
+                                <span
+                                    *ngIf="!registerForm.get('fullName').valid && registerForm.get('fullName').touched"
+                                    class="text-danger small">Please enter your Full Name</span>
+                            </div> <!-- form-group end.// -->
+                            <div class="col form-group">
+                                <label>Choose account type</label>
+                                <select class="form-control" formControlName="role">
+                                    <option value="company">Company</option>
+                                    <option value="customer">Customer</option>
+                                </select>
+                            </div> <!-- form-group end.// -->
+                        </div> <!-- form-row end.// -->
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input matInput type="email" class="form-control" placeholder="Insert You Email"
+                                formControlName="email" [errorStateMatcher]="matcher">
+                            <span *ngIf="!registerForm.get('email').valid && registerForm.get('email').touched"
+                                class="text-danger small">Please enter your Email</span>
+                        </div> <!-- form-group end.// -->
+                        <div class="form-group">
+                            <label>Create Password</label>
+                            <input matInput class="form-control" type="password" placeholder="Insert You Password"
+                                formControlName="password" [errorStateMatcher]="matcher">
+                            <span *ngIf="!registerForm.get('password').valid && registerForm.get('password').touched"
+                                class="text-danger small">Please enter your password</span>
+                        </div> <!-- form-group end.// -->
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input class="form-control" type="password" placeholder="Confirm Your Password">
+                        </div> <!-- form-group end.// -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        </div> <!-- form-group// -->
+                    </form>
+                </article> <!-- card-body end .// -->
+            </div> <!-- card.// -->
+        </div> <!-- col.//-->
+    </div> <!-- row.//-->
+</div>
+
+<!-- <form class="m-5">
+    <div class="form-check form-check-inline mb-2">
+        <input class="form-check-input" type="radio" name="role" [(ngModel)]='newUser.role'
+        [ngModelOptions]="{standalone: true}" id="companyRadio" value="ROLE_COMPANY">
+        <label class="form-check-label" for="inlineRadio1" >Company</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="role" [(ngModel)]='newUser.role'
+            [ngModelOptions]="{standalone: true}" id="customerRadio" value="ROLE_CUSTOMER">
+        <label class="form-check-label" for="inlineRadio2">Customer</label>
+    </div>
+    <div class="form-group row col-lg-4">
+        <label for="name">Full name</label>
+        <input type="text" class="form-control" id="fullname" required [(ngModel)]="newUser.fullName" [ngModelOptions]="{standalone: true}" name="fullname"
+            placeholder="Insert Full name">
+    </div>
+    <div class="form-group row col-lg-4">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" required email [(ngModel)]="newUser.email" [ngModelOptions]="{standalone: true}"
+            placeholder="Insert Email">
+    </div>
+    <div class="form-group row col-lg-4">
+        <label for="pass">Password</label>
+        <input type="password" class="form-control" id="pass" required [(ngModel)]="newUser.password" [ngModelOptions]="{standalone: true}"
+            placeholder="Insert Password">
+    </div>
+    <button class="btn btn-primary" >Add User</button>
+    <button class=" ml-1 btn btn-info">Clear</button>
+</form> -->
+<!-- [ngModelOptions]="{standalone: true}" -->

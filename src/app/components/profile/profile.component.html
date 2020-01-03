@@ -1,0 +1,26 @@
+<form class="m-5">
+        <div class="form-group row">
+            <div>
+                <label class="ml-3">Account type: </label> {{user.role}}
+            </div>
+        </div>
+        <div class="form-group row col-lg-4">
+            <label for="name">Full name</label>
+            <input *ngIf="this.userRole === 'ROLE_COMPANY'; else elseBlock" type="text" class="form-control" id="fullName" [(ngModel)]="user.fullName" name="fullName" readonly>
+            <ng-template #elseBlock>
+                <input type="text" class="form-control" id="fullName" [(ngModel)]="user.fullName" name="fullName" [readonly]="isReadOnly">
+            </ng-template>
+        </div>
+        <div class="form-group row col-lg-4">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" [(ngModel)]="user.email" name="email"
+                [readonly]="isReadOnly">
+        </div>
+        <div class="form-group row col-lg-4">
+            <label for="pass">Password</label>
+            <input type="password" class="form-control" id="pass" [(ngModel)]="user.password" name="password"
+                [readonly]="isReadOnly">
+        </div>
+        <button class="mr-1 mt-2 btn btn-success" (click)="isReadOnlyF(false)">Update</button>
+        <button class="mr-1 mt-2 btn btn-primary" (click)="updateUser()">Save</button>
+</form>
