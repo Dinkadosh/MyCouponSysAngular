@@ -21,7 +21,7 @@ import { BuyCouponComponent } from './components/buy-coupon/buy-coupon.component
 
 
 const routes: Routes = [
-  { path: '', component: AboutComponent },
+  { path: '', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'about', component: AboutComponent },
   { path: 'login', component: LoginComponent },
@@ -29,6 +29,7 @@ const routes: Routes = [
   {
     path: 'info',
     canActivate: [AuthGuard],
+    data: { roles: ['ROLE_ADMIN', 'ROLE_COMPANY', 'ROLE_CUSTOMER'] },
     component: InfoComponent
   },
   {

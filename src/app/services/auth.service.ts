@@ -4,6 +4,7 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from '../classes/user';
+import * as SecureLS from 'secure-ls';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class AuthService {
   isLoggedIn = false;
   redirectUrl: string;
   jwt: string;
+  secure = new SecureLS();
 
   apiUrl = 'http://localhost:8080/';
 
@@ -31,7 +33,7 @@ export class AuthService {
   // }
 
   islogin() {
-    if (localStorage.getItem('token')) {
+    if (this.secure.get('tokenS')) {
       return this.isLoggedIn = true;
     } else {
       return this.isLoggedIn = false;
@@ -83,7 +85,7 @@ register(data: any): Observable < any > {
   private handleError<T>(operation = 'operation', result ?: T) {
   return (error: any): Observable<T> => {
 
-    console.error(error); // log to console instead
+    console.error(error.message); // log to console instead
     this.log(`${operation} failed: ${error.message}`);
 
     return of(result as T);
@@ -97,7 +99,7 @@ parseJwt() {
 }
 
 loadToken() {
-  this.jwt = localStorage.getItem('token');
+  this.jwt = this.secure.get('tokenS');
   this.parseJwt();
 }
 

@@ -14,11 +14,15 @@
         <td>{{customer.id}}</td>
         <td>{{customer.fullName}}</td>
         <td>{{customer.email}}</td>
-        <td><input *ngIf="customer.active; else elseBlock" type="checkbox" class="" id="customCheck1" checked disabled>
-          <ng-template #elseBlock><input type="checkbox" class="" id="customCheck1" disabled></ng-template>
+        <td>
+          <mat-slide-toggle class="" [color]="'primary'" [disabled]='true' [checked]="customer.active"
+            [(ngModel)]="customer.active" name="active">
+          </mat-slide-toggle>
+          <!-- <input *ngIf="customer.active; else elseBlock" type="checkbox" class="" id="customCheck1" checked disabled>
+          <ng-template #elseBlock><input type="checkbox" class="" id="customCheck1" disabled></ng-template> -->
         </td>
         <td>
-          <button (click)='deleteCustomer(customer.id)' class="btn mr-1 btn-danger">Delete</button>
+          <button (click)='openDialog(customer.id)' class="btn mr-1 btn-danger">Delete</button>
           <button (click)='UserUpdate(customer.id, customer.role)' class="btn mr-1 btn-success butt">Update</button>
           <button (click)='UserDetails(customer.id, customer.role)' class="btn mr-1 btn-info butt">Details</button>
         </td>

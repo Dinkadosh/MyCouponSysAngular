@@ -32,7 +32,7 @@ export class CompanyService {
     return this.http.put(`${this.baseUrl}/updateCoupon/${id}`, coupon);
   }
 
-  addCoupon(coupon: Coupon): Observable<any> {
+  addCoupon(coupon: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/addCoupon/`, coupon);
   }
 

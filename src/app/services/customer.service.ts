@@ -35,5 +35,9 @@ export class CustomerService {
   buyCoupon(id: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/buy/${id}`);
   }
+
+  useCoupon(id: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/use/${id}`);
+  }
 }
   

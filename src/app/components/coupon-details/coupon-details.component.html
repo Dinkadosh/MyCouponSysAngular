@@ -1,4 +1,10 @@
 <div class="container mt-5">
+    <div *ngIf="role === 'ROLE_ADMIN'">
+        <label><b>Id: </b></label> {{coupon.id}}
+    </div>
+    <div *ngIf="role === 'ROLE_ADMIN'">
+        <label><b>Company Id: </b></label> {{coupon.companyId}}
+    </div>
     <div>
         <label><b>Company Name: </b></label> {{coupon.companyName}}
     </div>
@@ -11,7 +17,7 @@
     <div>
         <label><b>Description: </b></label> {{coupon.description}}
     </div>
-    <div>
+    <div *ngIf="role !== 'ROLE_CUSTOMER'">
         <label><b>Amount: </b></label> {{coupon.amount}}
     </div>
     <div>
@@ -23,5 +29,6 @@
     <div>
         <label><b>End Date: </b></label> {{coupon.endDate}}
     </div>
-    <button class="btn btn-info ml-2" (click)="goBack()">Back</button>
+    <button class="btn btn-info" (click)="goBack()">Back</button>
+    <button *ngIf="role === 'ROLE_CUSTOMER'" class="btn ml-1 btn-success butt" (click)='useCoupon(coupon.id)'>Use</button>
 </div>

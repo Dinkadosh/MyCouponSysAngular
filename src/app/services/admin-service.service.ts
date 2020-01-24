@@ -27,7 +27,7 @@ export class AdminService {
     return this.http.get(`${this.baseUrl}/coupons`);
   }
 
-  createUser(user: User): Observable<Object> {    
+  createUser(user: any): Observable<Object> {    
     if (user.role === 'ROLE_COMPANY') {
       return this.http.post(`${this.baseUrl}/company`, user);
     } else if (user.role === 'ROLE_CUSTOMER') {

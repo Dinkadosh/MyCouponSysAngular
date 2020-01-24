@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Coupon } from 'src/app/classes/coupon';
 import { Router } from '@angular/router';
 import { CustomerService } from 'src/app/services/customer.service';
+import { NotifService } from '../../services/notif.service'
 
 @Component({
   selector: 'app-customer-coupons',
@@ -13,8 +14,9 @@ export class CustomerCouponsComponent implements OnInit {
 
   coupons: Observable<Coupon[]>;
 
-  constructor(private customerService: CustomerService,
-    private router: Router) { }
+  constructor(private notifier: NotifService, private customerService: CustomerService,
+    private router: Router) { 
+    }
 
   ngOnInit() {
     this.reloadData();
@@ -28,4 +30,13 @@ export class CustomerCouponsComponent implements OnInit {
     this.router.navigate(['couponDetails', id]);
   }
 
+  useCoupon(id: number) {
+    this.customerService.useCoupon(id).subscribe(
+      data => {
+        console.log(data);
+        this.notifier.showNotification('success', 'Coupon used successfully! :D');
+        this.reloadData();
+      },
+      error => console.log(error));
+  }
 }

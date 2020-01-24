@@ -21,23 +21,55 @@ import { HeaderComponent } from './components/header/header.component';
 import { AboutComponent } from './components/about/about.component';
 import { RegisterComponent } from './components/register/register.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {
-  MatInputModule,
-  MatPaginatorModule,
-  MatProgressSpinnerModule,
-  MatSortModule,
-  MatTableModule,
-  MatIconModule,
-  MatButtonModule,
-  MatCardModule,
-  MatFormFieldModule } from '@angular/material';
 import { CompanyCouponsComponent } from './components/company-coupons/company-coupons.component';
 import { CouponUpdateComponent } from './components/coupon-update/coupon-update.component';
 import { AddCouponComponent } from './components/add-coupon/add-coupon.component';
 import { CustomerCouponsComponent } from './components/customer-coupons/customer-coupons.component';
 import { BuyCouponComponent } from './components/buy-coupon/buy-coupon.component';
+import { NotifierModule, NotifierOptions } from 'angular-notifier';
+import { AngularMaterialModule } from './angular-material.module';
+import { MymodalComponent } from './components/mymodal/mymodal.component';
 
+const customNotifierOptions: NotifierOptions = {
+  position: {
+    horizontal: {
+      position: 'right',
+      distance: 12
+    },
+    vertical: {
+      position: 'bottom',
+      distance: 12,
+      gap: 10
+    }
+  },
+  theme: 'material',
+  behaviour: {
+    autoHide: 2000,
+    onClick: 'hide',
+    onMouseover: 'pauseAutoHide',
+    showDismissButton: false,
+    stacking: 4
+  },
+  animations: {
+    enabled: true,
+    show: {
+      preset: 'slide',
+      speed: 300,
+      easing: 'ease'
+    },
+    hide: {
+      preset: 'fade',
+      speed: 300,
+      easing: 'ease',
+      offset: 50
+    },
+    shift: {
+      speed: 300,
+      easing: 'ease'
+    },
+    overlap: 150
+  }
+};
 
 @NgModule({
   declarations: [
@@ -61,6 +93,7 @@ import { BuyCouponComponent } from './components/buy-coupon/buy-coupon.component
     AddCouponComponent,
     CustomerCouponsComponent,
     BuyCouponComponent,
+    MymodalComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,16 +102,8 @@ import { BuyCouponComponent } from './components/buy-coupon/buy-coupon.component
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    MatInputModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatProgressSpinnerModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatToolbarModule
+    AngularMaterialModule,
+    NotifierModule.withConfig(customNotifierOptions)
   ],
   providers: [
     {
@@ -87,6 +112,7 @@ import { BuyCouponComponent } from './components/buy-coupon/buy-coupon.component
       multi: true
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [MymodalComponent]
 })
 export class AppModule { }

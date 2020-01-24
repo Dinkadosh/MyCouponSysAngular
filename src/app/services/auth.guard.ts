@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, CanActivate, Router } from '@angular/router';
 import { AuthService } from './auth.service';
+import * as SecureLS from 'secure-ls';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements  CanActivate {
 
+  secure = new SecureLS();
+
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const userToken = localStorage.getItem('token');
-    const userRole = localStorage.getItem('role');
+    const userToken = this.secure.get('tokenS');
+    const userRole = this.secure.get('roleS');
     if (userToken) {
         // check if route is restricted by role
         if (route.data.roles && route.data.roles.indexOf(userRole) === -1) {

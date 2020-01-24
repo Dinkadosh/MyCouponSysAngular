@@ -4,13 +4,16 @@
   <hr />
   <div>
     <div>
+      <label><b>Id: </b></label> {{user.id}}
+    </div>
+    <div>
       <label><b>Full Name: </b></label> {{user.fullName}}
     </div>
     <div>
       <label><b>Email: </b></label> {{user.email}}
     </div>
     <div>
-      <label><b>Password: </b></label> {{user.password}}
+      <label><b>Password: </b></label> *****************
     </div>
     <div>
       <label><b>Active: </b></label> {{user.active}}
@@ -55,6 +58,6 @@
     <ng-template #blockElse>
       <h4>No coupons available</h4>
     </ng-template>
-    <button class="btn mr-1 btn-success butt" (click)='gotoList()'>Back</button>
+    <button class="btn mr-1 btn-info butt" (click)='gotoList()'>Back</button>
   </div>
 </div>

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../services/admin-service.service';
-import { User } from '../../classes/user';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
+import { NotifService } from '../../services/notif.service'
 
 @Component({
   selector: 'app-add-user',
@@ -10,36 +11,49 @@ import { Router } from '@angular/router';
 })
 export class AddUserComponent implements OnInit {
 
-  newUser: User = new User();
+  addUserForm: FormGroup;
+  submitted = false;
 
-  constructor(private adminService:AdminService, private router: Router) { }
+  constructor(private notifi: NotifService, private formBuilder: FormBuilder, private router: Router,
+    private adminService: AdminService) {
+  }
 
   ngOnInit() {
+    this.addUserForm = this.formBuilder.group({
+      'fullName': [null, Validators.required],
+      'email': [null, [Validators.required, Validators.email]],
+      'password': [null, [Validators.required, Validators.minLength(4)]],
+      'role': [null, Validators.required]
+    }
+    );
   }
 
-  save() {
-    this.adminService.createUser(this.newUser)
-      .subscribe(data => console.log(data), error => console.log(error));
-    this.newUser = new User();
-    this.gotoList(this.newUser.role);
-  }
+  get f() { return this.addUserForm.controls; }
 
-  onSubmit() {
-    this.save();
+  onFormSubmit(form: NgForm) {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.addUserForm.invalid) {
+      return;
+    }
+
+    this.adminService.createUser(form)
+      .subscribe(data => {
+        console.log(data);
+        this.notifi.showNotification('success', 'User added successfully! :)');
+        this.gotoList(this.addUserForm.controls['role'].value);
+      },
+        error => console.log(error));
+    
   }
 
   gotoList(role) {
     if (role === 'ROLE_COMPANY') {
       this.router.navigate(['companies'])
     } else if (role === 'ROLE_CUSTOMER') {
-      this.router.navigate(['customer'])
+      this.router.navigate(['customers'])
     }
   }
 
-  clear() {
-    this.newUser.fullName = '';
-    this.newUser.email= '';
-    this.newUser.password = '';
-  }
- 
 }

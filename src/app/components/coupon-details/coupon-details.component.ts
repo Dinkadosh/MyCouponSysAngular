@@ -5,6 +5,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CompanyService } from 'src/app/services/company.service';
 import {Location} from '@angular/common';
 import { CustomerService } from 'src/app/services/customer.service';
+import { NotifService } from 'src/app/services/notif.service';
+import * as SecureLS from 'secure-ls';
 
 @Component({
   selector: 'app-coupon-details',
@@ -13,10 +15,13 @@ import { CustomerService } from 'src/app/services/customer.service';
 })
 export class CouponDetailsComponent implements OnInit {
 
+  secure = new SecureLS();
   public id: number;
   public coupon: Coupon;
+  public role: string = this.secure.get('roleS');
 
-  constructor(private route: ActivatedRoute, private router: Router,
+
+  constructor(private notifier: NotifService, private route: ActivatedRoute, private router: Router,
     private adminService: AdminService, private companyService: CompanyService,
     private customerService: CustomerService,
     private location: Location) { }
@@ -26,20 +31,20 @@ export class CouponDetailsComponent implements OnInit {
 
     this.id = this.route.snapshot.params['id'];
 
-    if (localStorage.getItem('role') === "ROLE_ADMIN") {
+    if (this.role === "ROLE_ADMIN") {
       this.adminService.getCoupon(this.id)
         .subscribe(data => {
           console.log(data)
           this.coupon = data;
         }, error => console.log(error));
-    } else if (localStorage.getItem('role') === "ROLE_COMPANY") {      
+    } else if (this.role === "ROLE_COMPANY") {      
       this.companyService.getCoupon(this.id)
       .subscribe(data => {
         console.log(data)
         this.coupon = data;
       }, error => console.log(error));
 
-    } else if (localStorage.getItem('role') === "ROLE_CUSTOMER") {
+    } else if (this.role === "ROLE_CUSTOMER") {
       this.customerService.getCoupon(this.id)
         .subscribe(data => {
           console.log(data)
@@ -50,6 +55,16 @@ export class CouponDetailsComponent implements OnInit {
 
   goBack() {
     this.location.back();
+  }
+
+  useCoupon(id: number) {
+    this.customerService.useCoupon(id).subscribe(
+      data => {
+        console.log(data);
+        this.notifier.showNotification('success', 'Coupon used successfully! :D');
+        this.router.navigate(['customer_coupons']);
+      },
+      error => console.log(error));
   }
 
 }

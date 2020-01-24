@@ -26,12 +26,12 @@
             <div class="col form-group">
                 <label for="startDate">Start Date</label>
                 <input type="date" class="form-control" id="startDate" required [(ngModel)]="coupon.startDate"
-                    name="startDate">
+                    name="startDate" min="{{this.date | date:'yyyy-MM-dd'}}">
             </div>
             <div class="col form-group">
                 <label for="endDate">End Date</label>
                 <input type="date" class="form-control" id="endDate" required [(ngModel)]="coupon.endDate"
-                    name="startDate">
+                    name="endDate" min="{{coupon.startDate}}">
             </div>
         </div>
         <div class="form-row">

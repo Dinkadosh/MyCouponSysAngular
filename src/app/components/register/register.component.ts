@@ -1,16 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { ErrorStateMatcher } from '@angular/material/core';
-
-/** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
+import { MustMatch } from '../../classes/mustMuch';
+import { NotifService } from '../../services/notif.service'
 
 @Component({
   selector: 'app-register',
@@ -20,32 +13,44 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
-  fullName = '';
-  email = '';
-  password = '';
-  isLoadingResults = false;
-  matcher = new MyErrorStateMatcher();
-  roles = ['company', 'customer'];
+  submitted = false;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService) { }
+
+  constructor(private notifier: NotifService, private formBuilder: FormBuilder, private router: Router, 
+    private authService: AuthService) { 
+    }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
-      'fullName' : [null, Validators.required],
-      'email' : [null, Validators.required],
-      'password' : [null, Validators.required],
-      'role' : [null, Validators.required]
-    });
+      'fullName': [null, Validators.required],
+      'email': [null, [Validators.required, Validators.email]],
+      'password': [null, [Validators.required, Validators.minLength(4)]],
+      'confirmPassword': [null, Validators.required],
+      'role': [null, Validators.required]
+    }, {
+      validator: MustMatch('password', 'confirmPassword')
+  });
   }
 
+  get f() { return this.registerForm.controls; }
+
   onFormSubmit(form: NgForm) {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+      return;
+    }
+
     this.authService.register(form)
       .subscribe(res => {
-        this.router.navigate(['login']);
+        if (res.id > 0) {
+          this.notifier.showNotification('success', 'You registered successfully! =)')
+          this.router.navigate(['login']);
+        }
       }, (err) => {
         console.log(err);
         alert(err.error);
       });
   }
-
 }

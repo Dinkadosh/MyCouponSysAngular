@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../../classes/user';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from '../../services/admin-service.service';
+import { NotifService } from '../../services/notif.service'
 
 @Component({
   selector: 'app-user-update',
@@ -13,9 +14,11 @@ export class UserUpdateComponent implements OnInit {
   public userId: number;
   public user: User;
   public userRole: string;
+  public submitted = false;
 
-  constructor(private route: ActivatedRoute, private router: Router,
-    private adminService: AdminService) { }
+  constructor(private notifier: NotifService, private route: ActivatedRoute, private router: Router,
+    private adminService: AdminService) {
+  }
 
   ngOnInit() {
     this.user = new User();
@@ -34,9 +37,12 @@ export class UserUpdateComponent implements OnInit {
     this.adminService.updateUser(this.userId, this.userRole, this.user)
       .subscribe(data => {
         this.user = data;
-        console.log(data)}, error => console.log(error));
-    this.user = new User();
-    this.gotoList();
+        console.log(data);
+        this.notifier.showNotification('success', 'User updated successfully! :P');
+        this.gotoList();
+      },
+        error => console.log(error));
+
   }
 
   gotoList() {
@@ -45,19 +51,9 @@ export class UserUpdateComponent implements OnInit {
     } else if (this.userRole === 'ROLE_CUSTOMER') {
       this.router.navigate(['customers']);
     }
-    // if (this.role === 'ROLE_COMPANY') {
-    //   this.router.navigate(['companies']).then(() => {
-    //     window.location.reload();
-    //   });
-    // } else if (this.role === 'ROLE_CUSTOMER') {
-    //   this.router.navigate(['customers']).then(() => {
-    //     window.location.reload();
-    //   });
-    // }
   }
 
   onSubmit() {
     this.updateUser();
   }
-
 }

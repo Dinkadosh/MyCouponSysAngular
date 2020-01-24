@@ -1,23 +1,25 @@
 <div class="container mt-3">
-    <div class="card-columns ">
-        <div class="card text-center" *ngFor="let coupon of coupons | async" width=50 height=75>
-            <img [src]="coupon.image"
-                class="card-img-top">
+    <div class="card-columns " *ngIf="(coupons | async)?.length > 0; else blockElse">
+        <div class="card text-center" *ngFor="let coupon of coupons | async">
+            <img [src]="coupon.image" class="card-img-top p-1">
             <div class="card-body">
                 <h5 class="card-title">{{coupon.title}}</h5>
                 <p class="card-text">{{coupon.description}}</p>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"></li>
-                <li class="list-group-item">{{coupon.startDate}} - {{coupon.endDate}}</li>
+                <li class="list-group-item"><strong>Company Name: </strong>{{coupon.companyName}}</li>
+                <li class="list-group-item"><strong>Start Date: </strong>{{coupon.startDate}}</li>
+                <li class="list-group-item"><strong>End Date: </strong>{{coupon.endDate}}</li>
                 <li class="list-group-item"><strong>Category:</strong> {{coupon.category}}</li>
                 <li class="list-group-item"><strong>Amount:</strong> {{coupon.amount}}</li>
-                <li class="list-group-item"><strong>Price:</strong> {{coupon.price}}.00 $</li>
-                <li class="list-group-item"><strong>Company Name: </strong>{{coupon.companyName}}</li>
+                <li class="list-group-item"><strong>Price:</strong> {{coupon.price}} $</li>
             </ul>
             <div class="card-body">
                 <button class="btn mr-1 btn-success btn-block" (click)="buyCoupon(coupon.id)">Buy Coupon</button>
             </div>
         </div>
     </div>
+    <ng-template #blockElse>
+        <h4>No coupons available</h4>
+    </ng-template>
 </div>
